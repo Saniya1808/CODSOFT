@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile App Signup</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .screen {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px; /* Adjust as needed */
+        }
+
+        /* Styles for each individual screen content */
+        #welcomeScreenContent { /* Welcome Screen Specific Styles */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        #signupScreenContent, #loginScreenContent { /* Signup and Login Screen Specific Styles */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align content to the left */
+            gap: 15px;
+        }
+
+        .screen img {
+            width: 100px;
+        }
+
+        .screen h2 {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            width: 100%; /* Make input groups take full width */
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        .input-group input {
+            width: calc(100% - 10px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .social-login {
+            margin-top: 20px;
+            display: flex; /* Arrange buttons horizontally */
+            justify-content: center; /* Center buttons */
+            gap: 10px; /* Space between buttons */
+            width: 100%; /* Make social login area take full width */
+        }
+
+        .social-login button {
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .footer {
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center; /* Center footer text */
+            width: 100%; /* Make footer take full width */
+        }
+
+        .footer a {
+            color: blue;
+            text-decoration: none;
+        }
+
+        /* Hide all screens except the welcome screen initially */
+        #signupScreen, #loginScreen {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="welcomeScreen" class="screen active">
+        <div id="welcomeScreenContent"> 
+            <img src="https://t3.ftcdn.net/jpg/04/20/09/54/360_F_420095419_4lmREEiNJY1DwRUb8iZjKLQ5oQ4bwp1q.jpg" alt="Welcome Image">
+            <h2>Welcome</h2>
+            <p>Discover the Social Powerhouse</p>
+            <button onclick="showScreen('signup')">Sign Up</button>
+            <button onclick="showScreen('login')">Login</button>
+            <div class="footer">You already have an account? <a href="#" onclick="showScreen('login')">Login</a></div>
+        </div>
+    </div>
+
+    <div id="signupScreen" class="screen inactive">
+        <div id="signupScreenContent">
+            <h2>Sign Up</h2>
+            <div class="input-group">
+                <label for="signupName">Name</label>
+                <input type="text" id="signupName" placeholder="Enter your name">
+            </div>
+            <div class="input-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="Enter your password">
+            </div>
+            <button onclick="signup()">Sign Up</button>
+
+            <div class="social-login">
+                <button>Google</button>
+                <button>Apple</button>
+            </div>
+            <div class="footer">You already have an account? <a href="#" onclick="showScreen('login')">Login</a></div>
+        </div>
+    </div>
+
+    <div id="loginScreen" class="screen inactive">
+        <div id="loginScreenContent">
+            <h2>Login Now</h2>
+            <div class="input-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+            <button onclick="login()">Login</button>
+            <div class="social-login">
+                <button>Google</button>
+                <button>Apple</button>
+            </div>
+            <div class="footer">You don't have account? <a href="#" onclick="showScreen('signup')">Sign Up</a></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentScreen = 'welcome';
+
+    function showScreen(screenId) {
+        // Hide all screens
+        document.getElementById('welcomeScreen').style.display = 'none';
+        document.getElementById('signupScreen').style.display = 'none';
+        document.getElementById('loginScreen').style.display = 'none';
+
+        // Show the requested screen
+        if (screenId === 'signup') {
+            document.getElementById('signupScreen').style.display = 'block';
+            currentScreen = 'signup';
+        } else if (screenId === 'login') {
+            document.getElementById('loginScreen').style.display = 'block';
+            currentScreen = 'login';
+        } else {
+            document.getElementById('welcomeScreen').style.display = 'block';
+            currentScreen = 'welcome';
+        }
+    }
+
+    function signup() {
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+
+        if (name && email && password) {
+            alert('Sign Up Successful');
+        } else {
+            alert('Please fill all the fields');
+        }
+    }
+
+    function login() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        if (email && password) {
+            alert('Login Successful');
+        } else {
+            alert('Please fill all the fields');
+        }
+    }
+</script>
+
+</body>
+</html>
